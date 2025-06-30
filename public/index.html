@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NSG Bank - Digital Banking</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Language Toggle -->
+    <div class="language-toggle">
+        <button id="lang-toggle" class="lang-btn">
+            <i class="fas fa-globe"></i>
+            <span id="lang-text">العربية</span>
+        </button>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="logo">
+                <h1>NSG</h1>
+                <p data-en="Digital Banking" data-ar="الخدمات المصرفية الرقمية">Digital Banking</p>
+            </div>
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+
+    <!-- Login Screen -->
+    <div id="login-screen" class="screen active">
+        <div class="container">
+            <div class="logo-section">
+                <div class="logo">
+                    <h1>NSG</h1>
+                    <p data-en="Digital Banking" data-ar="الخدمات المصرفية الرقمية">Digital Banking</p>
+                </div>
+            </div>
+
+            <div class="auth-form">
+                <h2 data-en="Welcome Back" data-ar="مرحباً بعودتك">Welcome Back</h2>
+                <p class="subtitle" data-en="Sign in to your account" data-ar="سجل دخولك إلى حسابك">Sign in to your account</p>
+
+                <form id="login-form">
+                    <div class="form-group">
+                        <label data-en="Name" data-ar="الاسم">Name</label>
+                        <input type="text" id="login-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label data-en="PIN" data-ar="الرقم السري">PIN</label>
+                        <input type="password" id="login-pin" maxlength="4" pattern="[0-9]{4}" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <span data-en="Sign In" data-ar="تسجيل الدخول">Sign In</span>
+                    </button>
+                </form>
+
+                <p class="switch-auth">
+                    <span data-en="Don't have an account?" data-ar="ليس لديك حساب؟">Don't have an account?</span>
+                    <a href="#" id="show-signup" data-en="Sign Up" data-ar="إنشاء حساب">Sign Up</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Screen -->
+    <div id="signup-screen" class="screen">
+        <div class="container">
+            <div class="logo-section">
+                <div class="logo">
+                    <h1>NSG</h1>
+                    <p data-en="Digital Banking" data-ar="الخدمات المصرفية الرقمية">Digital Banking</p>
+                </div>
+            </div>
+
+            <div class="auth-form">
+                <h2 data-en="Create Account" data-ar="إنشاء حساب">Create Account</h2>
+                <p class="subtitle" data-en="Join NSG Bank today" data-ar="انضم إلى بنك NSG اليوم">Join NSG Bank today</p>
+
+                <form id="signup-form">
+                    <div class="form-group">
+                        <label data-en="Full Name" data-ar="الاسم الكامل">Full Name</label>
+                        <input type="text" id="signup-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label data-en="4-Digit PIN" data-ar="الرقم السري (4 أرقام)">4-Digit PIN</label>
+                        <input type="password" id="signup-pin" maxlength="4" pattern="[0-9]{4}" required>
+                    </div>
+                    <div class="form-group">
+                        <label data-en="Confirm PIN" data-ar="تأكيد الرقم السري">Confirm PIN</label>
+                        <input type="password" id="confirm-pin" maxlength="4" pattern="[0-9]{4}" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <span data-en="Create Account" data-ar="إنشاء حساب">Create Account</span>
+                    </button>
+                </form>
+
+                <p class="switch-auth">
+                    <span data-en="Already have an account?" data-ar="لديك حساب بالفعل؟">Already have an account?</span>
+                    <a href="#" id="show-login" data-en="Sign In" data-ar="تسجيل الدخول">Sign In</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Screen -->
+    <div id="dashboard-screen" class="screen">
+        <div class="container">
+            <!-- Header -->
+            <div class="dashboard-header">
+                <div class="user-info">
+                    <h3 data-en="Welcome" data-ar="مرحباً">Welcome</h3>
+                    <p id="user-name">User Name</p>
+                </div>
+                <div class="header-actions">
+                    <button id="logout-btn" class="icon-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Balance Card -->
+            <div class="balance-card">
+                <div class="balance-header">
+                    <span data-en="Total Balance" data-ar="الرصيد الإجمالي">Total Balance</span>
+                    <button id="toggle-balance" class="icon-btn">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <div class="balance-amount">
+                    <span id="balance-display">$0.00</span>
+                </div>
+                <div class="account-number">
+                    <span data-en="Account:" data-ar="رقم الحساب:">Account:</span>
+                    <span id="account-number">••••••••••</span>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <button class="action-btn" id="transfer-btn">
+                    <i class="fas fa-paper-plane"></i>
+                    <span data-en="Transfer" data-ar="تحويل">Transfer</span>
+                </button>
+                <button class="action-btn" id="cards-btn">
+                    <i class="fas fa-credit-card"></i>
+                    <span data-en="Cards" data-ar="البطاقات">Cards</span>
+                </button>
+                <button class="action-btn" id="transactions-btn">
+                    <i class="fas fa-history"></i>
+                    <span data-en="History" data-ar="التاريخ">History</span>
+                </button>
+            </div>
+
+            <!-- Recent Transactions -->
+            <div class="section">
+                <h3 data-en="Recent Transactions" data-ar="المعاملات الأخيرة">Recent Transactions</h3>
+                <div id="transactions-list" class="transactions-list">
+                    <!-- Transactions will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transfer Screen -->
+    <div id="transfer-screen" class="screen">
+        <div class="container">
+            <div class="screen-header">
+                <button class="back-btn" data-target="dashboard-screen">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2 data-en="Transfer Money" data-ar="تحويل الأموال">Transfer Money</h2>
+            </div>
+
+            <form id="transfer-form">
+                <div class="form-group">
+                    <label data-en="Select Recipient" data-ar="اختر المستلم">Select Recipient</label>
+                    <select id="recipient-select" required>
+                        <option value="" data-en="Choose recipient..." data-ar="اختر المستلم...">Choose recipient...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label data-en="Amount" data-ar="المبلغ">Amount</label>
+                    <div class="amount-input">
+                        <span class="currency">$</span>
+                        <input type="number" id="transfer-amount" min="1" step="0.01" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label data-en="Description (Optional)" data-ar="الوصف (اختياري)">Description (Optional)</label>
+                    <input type="text" id="transfer-description" placeholder="Enter description...">
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <span data-en="Send Money" data-ar="إرسال الأموال">Send Money</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Cards Screen -->
+    <div id="cards-screen" class="screen">
+        <div class="container">
+            <div class="screen-header">
+                <button class="back-btn" data-target="dashboard-screen">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2 data-en="My Cards" data-ar="بطاقاتي">My Cards</h2>
+            </div>
+
+            <div class="credit-card">
+                <div class="card-header">
+                    <span class="card-type">NSG BANK</span>
+                    <i class="fab fa-cc-visa"></i>
+                </div>
+                <div class="card-number" id="card-number">•••• •••• •••• ••••</div>
+                <div class="card-footer">
+                    <div class="card-holder">
+                        <span class="label">CARD HOLDER</span>
+                        <span id="card-holder-name">NAME</span>
+                    </div>
+                    <div class="card-expiry">
+                        <span class="label">EXPIRES</span>
+                        <span id="card-expiry">••/••</span>
+                    </div>
+                    <div class="card-cvv">
+                        <span class="label">CVV</span>
+                        <span id="card-cvv">•••</span>
+                    </div>
+                </div>
+            </div>
+
+            <button id="generate-card-btn" class="btn btn-secondary">
+                <i class="fas fa-plus"></i>
+                <span data-en="Generate New Card" data-ar="إنشاء بطاقة جديدة">Generate New Card</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Transactions Screen -->
+    <div id="transactions-screen" class="screen">
+        <div class="container">
+            <div class="screen-header">
+                <button class="back-btn" data-target="dashboard-screen">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2 data-en="Transaction History" data-ar="تاريخ المعاملات">Transaction History</h2>
+            </div>
+
+            <div id="full-transactions-list" class="transactions-list">
+                <!-- Full transactions list will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

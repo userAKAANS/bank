@@ -1,0 +1,13 @@
+[
+  {
+    "id": 1,
+    "name": "Ahmed Hassan",
+    "pin": "$2b$10$JTC.c8x7X4v1G9ozm0WSmu1Bz1J80CJmd4cD.E9s38FnOd6yvHlyW",
+    "accountNumber": "3096018261",
+    "balance": 44990,
+    "cardNumber": "1204 7530 8018 2582",
+    "cardExpiry": "12/28",
+    "cardCvv": "577",
+    "createdAt": "2025-06-30T14:00:22.700Z"
+  }
+]
