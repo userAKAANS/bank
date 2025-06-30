@@ -373,7 +373,7 @@ body {
 .quick-actions {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    gap: 12px;
     margin-bottom: 32px;
 }
 
@@ -721,4 +721,454 @@ select {
 .balance-hidden .card-cvv span:last-child {
     filter: blur(6px);
     transition: filter 0.3s ease;
+}
+
+/* Filter Tabs */
+.filter-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+}
+
+.filter-tab {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #cccccc;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    font-size: 14px;
+}
+
+.filter-tab.active,
+.filter-tab:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Bill Categories */
+.bill-categories {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.bill-category {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.bill-category:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.bill-category i {
+    font-size: 32px;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+
+.bill-category span {
+    font-size: 14px;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+/* Report Period */
+.report-period {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.report-period label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+.report-period select {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+/* Report Summary */
+.report-summary {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.summary-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.summary-card h3 {
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.summary-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.summary-item .label {
+    font-size: 12px;
+    color: #cccccc;
+    font-weight: 500;
+}
+
+.summary-item .value {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.summary-item .value.positive {
+    color: #4ade80;
+}
+
+.summary-item .value.negative {
+    color: #f87171;
+}
+
+/* Account Details */
+.account-details {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.account-details h4 {
+    margin-bottom: 16px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+.detail-item:last-child {
+    margin-bottom: 0;
+}
+
+.detail-item span:first-child {
+    color: #cccccc;
+}
+
+.detail-item span:last-child {
+    color: #ffffff;
+    font-weight: 500;
+    font-family: 'Courier New', monospace;
+}
+
+/* Settings */
+.settings-section {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.settings-section h3 {
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.setting-item:last-child {
+    margin-bottom: 0;
+}
+
+.setting-item span:first-child {
+    color: #cccccc;
+}
+
+.setting-item span:last-child {
+    color: #ffffff;
+    font-weight: 500;
+}
+
+/* Setting Toggle */
+.setting-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.setting-toggle:last-child {
+    margin-bottom: 0;
+}
+
+.setting-toggle span {
+    color: #ffffff;
+    font-size: 14px;
+}
+
+/* Toggle Switch */
+.toggle {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 24px;
+}
+
+.toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: 0.3s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: #ffffff;
+    transition: 0.3s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #4ade80;
+}
+
+input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+/* Settings Buttons */
+.settings-btn {
+    width: 100%;
+    margin-bottom: 12px;
+    justify-content: flex-start;
+    gap: 12px;
+}
+
+.settings-btn:last-child {
+    margin-bottom: 0;
+}
+
+.settings-btn i {
+    font-size: 18px;
+}
+
+/* Transaction Categories */
+.transaction-item {
+    position: relative;
+}
+
+.transaction-item.transfer::before,
+.transaction-item.bills::before,
+.transaction-item.deposit::before,
+.transaction-item.shopping::before,
+.transaction-item.family::before,
+.transaction-item.bonus::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 60%;
+    border-radius: 2px;
+}
+
+.transaction-item.transfer::before {
+    background: #3b82f6;
+}
+
+.transaction-item.bills::before {
+    background: #f59e0b;
+}
+
+.transaction-item.deposit::before {
+    background: #10b981;
+}
+
+.transaction-item.shopping::before {
+    background: #8b5cf6;
+}
+
+.transaction-item.family::before {
+    background: #ef4444;
+}
+
+.transaction-item.bonus::before {
+    background: #06d6a0;
+}
+
+/* Mobile Responsive Updates */
+@media (max-width: 480px) {
+    .quick-actions {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+    
+    .action-btn {
+        padding: 12px 8px;
+    }
+    
+    .action-btn i {
+        font-size: 18px;
+    }
+    
+    .action-btn span {
+        font-size: 10px;
+    }
+    
+    .bill-categories {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    
+    .bill-category {
+        padding: 20px 12px;
+    }
+    
+    .bill-category i {
+        font-size: 24px;
+    }
+    
+    .summary-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .filter-tabs {
+        gap: 6px;
+    }
+    
+    .filter-tab {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}
+
+/* Enhanced Transaction Display */
+.transaction-item {
+    padding-left: 20px;
+}
+
+.transaction-reference {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.6);
+    font-family: 'Courier New', monospace;
+    margin-top: 2px;
+}
+
+/* IBAN Display */
+.iban-display {
+    font-family: 'Courier New', monospace;
+    letter-spacing: 1px;
+    font-size: 12px;
+}
+
+/* Category Icons */
+.category-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.category-icon.transfer {
+    background: rgba(59, 130, 246, 0.2);
+    color: #3b82f6;
+}
+
+.category-icon.bills {
+    background: rgba(245, 158, 11, 0.2);
+    color: #f59e0b;
+}
+
+.category-icon.deposit {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+}
+
+.category-icon.shopping {
+    background: rgba(139, 92, 246, 0.2);
+    color: #8b5cf6;
+}
+
+.category-icon.family {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+.category-icon.bonus {
+    background: rgba(6, 214, 160, 0.2);
+    color: #06d6a0;
 }

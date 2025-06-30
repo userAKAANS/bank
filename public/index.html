@@ -147,9 +147,21 @@
                     <i class="fas fa-credit-card"></i>
                     <span data-en="Cards" data-ar="البطاقات">Cards</span>
                 </button>
+                <button class="action-btn" id="bills-btn">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <span data-en="Bills" data-ar="الفواتير">Bills</span>
+                </button>
                 <button class="action-btn" id="transactions-btn">
                     <i class="fas fa-history"></i>
                     <span data-en="History" data-ar="التاريخ">History</span>
+                </button>
+                <button class="action-btn" id="statements-btn">
+                    <i class="fas fa-chart-line"></i>
+                    <span data-en="Reports" data-ar="التقارير">Reports</span>
+                </button>
+                <button class="action-btn" id="settings-btn">
+                    <i class="fas fa-cog"></i>
+                    <span data-en="Settings" data-ar="الإعدادات">Settings</span>
                 </button>
             </div>
 
@@ -250,8 +262,230 @@
                 <h2 data-en="Transaction History" data-ar="تاريخ المعاملات">Transaction History</h2>
             </div>
 
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all" data-en="All" data-ar="الكل">All</button>
+                <button class="filter-tab" data-filter="transfer" data-en="Transfers" data-ar="التحويلات">Transfers</button>
+                <button class="filter-tab" data-filter="bills" data-en="Bills" data-ar="الفواتير">Bills</button>
+                <button class="filter-tab" data-filter="deposit" data-en="Deposits" data-ar="الإيداعات">Deposits</button>
+            </div>
+
             <div id="full-transactions-list" class="transactions-list">
                 <!-- Full transactions list will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Bills Payment Screen -->
+    <div id="bills-screen" class="screen">
+        <div class="container">
+            <div class="screen-header">
+                <button class="back-btn" data-target="dashboard-screen">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2 data-en="Pay Bills" data-ar="دفع الفواتير">Pay Bills</h2>
+            </div>
+
+            <div class="bill-categories">
+                <div class="bill-category" data-bill="electricity">
+                    <i class="fas fa-bolt"></i>
+                    <span data-en="Electricity" data-ar="الكهرباء">Electricity</span>
+                </div>
+                <div class="bill-category" data-bill="water">
+                    <i class="fas fa-tint"></i>
+                    <span data-en="Water" data-ar="المياه">Water</span>
+                </div>
+                <div class="bill-category" data-bill="internet">
+                    <i class="fas fa-wifi"></i>
+                    <span data-en="Internet" data-ar="الإنترنت">Internet</span>
+                </div>
+                <div class="bill-category" data-bill="mobile">
+                    <i class="fas fa-mobile-alt"></i>
+                    <span data-en="Mobile" data-ar="الجوال">Mobile</span>
+                </div>
+                <div class="bill-category" data-bill="gas">
+                    <i class="fas fa-fire"></i>
+                    <span data-en="Gas" data-ar="الغاز">Gas</span>
+                </div>
+                <div class="bill-category" data-bill="insurance">
+                    <i class="fas fa-shield-alt"></i>
+                    <span data-en="Insurance" data-ar="التأمين">Insurance</span>
+                </div>
+            </div>
+
+            <form id="bill-payment-form" class="hidden">
+                <h3 id="bill-title">Bill Payment</h3>
+                
+                <div class="form-group">
+                    <label data-en="Account Number" data-ar="رقم الحساب">Account Number</label>
+                    <input type="text" id="bill-account-number" required>
+                </div>
+
+                <div class="form-group">
+                    <label data-en="Amount" data-ar="المبلغ">Amount</label>
+                    <div class="amount-input">
+                        <span class="currency">$</span>
+                        <input type="number" id="bill-amount" min="1" step="0.01" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label data-en="Description (Optional)" data-ar="الوصف (اختياري)">Description (Optional)</label>
+                    <input type="text" id="bill-description">
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <span data-en="Pay Bill" data-ar="دفع الفاتورة">Pay Bill</span>
+                </button>
+                
+                <button type="button" class="btn btn-secondary" id="cancel-bill">
+                    <span data-en="Cancel" data-ar="إلغاء">Cancel</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Statements/Reports Screen -->
+    <div id="statements-screen" class="screen">
+        <div class="container">
+            <div class="screen-header">
+                <button class="back-btn" data-target="dashboard-screen">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2 data-en="Account Reports" data-ar="تقارير الحساب">Account Reports</h2>
+            </div>
+
+            <div class="report-period">
+                <label data-en="Select Period" data-ar="اختر الفترة">Select Period</label>
+                <select id="period-select">
+                    <option value="7" data-en="Last 7 days" data-ar="آخر 7 أيام">Last 7 days</option>
+                    <option value="30" selected data-en="Last 30 days" data-ar="آخر 30 يوم">Last 30 days</option>
+                    <option value="90" data-en="Last 3 months" data-ar="آخر 3 أشهر">Last 3 months</option>
+                    <option value="365" data-en="Last year" data-ar="آخر سنة">Last year</option>
+                </select>
+                <button id="generate-report" class="btn btn-primary">
+                    <span data-en="Generate Report" data-ar="إنشاء التقرير">Generate Report</span>
+                </button>
+            </div>
+
+            <div id="report-summary" class="report-summary hidden">
+                <div class="summary-card">
+                    <h3 data-en="Financial Summary" data-ar="الملخص المالي">Financial Summary</h3>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <span class="label" data-en="Total Income" data-ar="إجمالي الدخل">Total Income</span>
+                            <span class="value positive" id="total-income">$0.00</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label" data-en="Total Expenses" data-ar="إجمالي المصروفات">Total Expenses</span>
+                            <span class="value negative" id="total-expenses">$0.00</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label" data-en="Net Amount" data-ar="المبلغ الصافي">Net Amount</span>
+                            <span class="value" id="net-amount">$0.00</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label" data-en="Total Transactions" data-ar="إجمالي المعاملات">Total Transactions</span>
+                            <span class="value" id="total-transactions">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="account-details">
+                    <h4 data-en="Account Information" data-ar="معلومات الحساب">Account Information</h4>
+                    <div class="detail-item">
+                        <span data-en="Account Number:" data-ar="رقم الحساب:">Account Number:</span>
+                        <span id="report-account-number">••••••••••</span>
+                    </div>
+                    <div class="detail-item">
+                        <span data-en="IBAN:" data-ar="الآيبان:">IBAN:</span>
+                        <span id="report-iban">••••••••••••••••••••••••</span>
+                    </div>
+                    <div class="detail-item">
+                        <span data-en="Current Balance:" data-ar="الرصيد الحالي:">Current Balance:</span>
+                        <span id="report-balance">$0.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Screen -->
+    <div id="settings-screen" class="screen">
+        <div class="container">
+            <div class="screen-header">
+                <button class="back-btn" data-target="dashboard-screen">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2 data-en="Settings" data-ar="الإعدادات">Settings</h2>
+            </div>
+
+            <div class="settings-section">
+                <h3 data-en="Profile Information" data-ar="معلومات الملف الشخصي">Profile Information</h3>
+                <div class="setting-item">
+                    <span data-en="Name:" data-ar="الاسم:">Name:</span>
+                    <span id="profile-name">User Name</span>
+                </div>
+                <div class="setting-item">
+                    <span data-en="Email:" data-ar="البريد الإلكتروني:">Email:</span>
+                    <span id="profile-email">user@email.com</span>
+                </div>
+                <div class="setting-item">
+                    <span data-en="Phone:" data-ar="الهاتف:">Phone:</span>
+                    <span id="profile-phone">+966xxxxxxxxx</span>
+                </div>
+                <div class="setting-item">
+                    <span data-en="Account Type:" data-ar="نوع الحساب:">Account Type:</span>
+                    <span id="profile-account-type">Current Account</span>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3 data-en="Transaction Limits" data-ar="حدود المعاملات">Transaction Limits</h3>
+                <div class="setting-item">
+                    <span data-en="Daily Limit:" data-ar="الحد اليومي:">Daily Limit:</span>
+                    <span id="daily-limit">$10,000</span>
+                </div>
+                <div class="setting-item">
+                    <span data-en="Monthly Limit:" data-ar="الحد الشهري:">Monthly Limit:</span>
+                    <span id="monthly-limit">$100,000</span>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3 data-en="Notifications" data-ar="الإشعارات">Notifications</h3>
+                <div class="setting-toggle">
+                    <span data-en="SMS Alerts" data-ar="تنبيهات الرسائل">SMS Alerts</span>
+                    <label class="toggle">
+                        <input type="checkbox" id="sms-alerts" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-toggle">
+                    <span data-en="Email Alerts" data-ar="تنبيهات البريد">Email Alerts</span>
+                    <label class="toggle">
+                        <input type="checkbox" id="email-alerts" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-toggle">
+                    <span data-en="Push Notifications" data-ar="الإشعارات المباشرة">Push Notifications</span>
+                    <label class="toggle">
+                        <input type="checkbox" id="push-notifications" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3 data-en="Security" data-ar="الأمان">Security</h3>
+                <button class="btn btn-secondary settings-btn">
+                    <i class="fas fa-key"></i>
+                    <span data-en="Change PIN" data-ar="تغيير الرقم السري">Change PIN</span>
+                </button>
+                <button class="btn btn-secondary settings-btn">
+                    <i class="fas fa-fingerprint"></i>
+                    <span data-en="Biometric Login" data-ar="تسجيل الدخول بالبصمة">Biometric Login</span>
+                </button>
             </div>
         </div>
     </div>

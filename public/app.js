@@ -3,6 +3,8 @@ let currentUser = null;
 let currentLanguage = 'en';
 let balanceVisible = true;
 let authToken = localStorage.getItem('authToken');
+let allTransactions = [];
+let currentBillType = null;
 
 // API base URL
 const API_BASE = window.location.origin;
@@ -44,7 +46,54 @@ const translations = {
         'Start by making a transfer': 'Start by making a transfer',
         'Money Transfer': 'Money Transfer',
         'Received from': 'Received from',
-        'Sent to': 'Sent to'
+        'Sent to': 'Sent to',
+        'Bills': 'Bills',
+        'Reports': 'Reports',
+        'Settings': 'Settings',
+        'Pay Bills': 'Pay Bills',
+        'Account Reports': 'Account Reports',
+        'All': 'All',
+        'Transfers': 'Transfers',
+        'Deposits': 'Deposits',
+        'Electricity': 'Electricity',
+        'Water': 'Water',
+        'Internet': 'Internet',
+        'Mobile': 'Mobile',
+        'Gas': 'Gas',
+        'Insurance': 'Insurance',
+        'Account Number': 'Account Number',
+        'Pay Bill': 'Pay Bill',
+        'Cancel': 'Cancel',
+        'Select Period': 'Select Period',
+        'Last 7 days': 'Last 7 days',
+        'Last 30 days': 'Last 30 days',
+        'Last 3 months': 'Last 3 months',
+        'Last year': 'Last year',
+        'Generate Report': 'Generate Report',
+        'Financial Summary': 'Financial Summary',
+        'Total Income': 'Total Income',
+        'Total Expenses': 'Total Expenses',
+        'Net Amount': 'Net Amount',
+        'Total Transactions': 'Total Transactions',
+        'Account Information': 'Account Information',
+        'Account Number:': 'Account Number:',
+        'IBAN:': 'IBAN:',
+        'Current Balance:': 'Current Balance:',
+        'Profile Information': 'Profile Information',
+        'Name:': 'Name:',
+        'Email:': 'Email:',
+        'Phone:': 'Phone:',
+        'Account Type:': 'Account Type:',
+        'Transaction Limits': 'Transaction Limits',
+        'Daily Limit:': 'Daily Limit:',
+        'Monthly Limit:': 'Monthly Limit:',
+        'Notifications': 'Notifications',
+        'SMS Alerts': 'SMS Alerts',
+        'Email Alerts': 'Email Alerts',
+        'Push Notifications': 'Push Notifications',
+        'Security': 'Security',
+        'Change PIN': 'Change PIN',
+        'Biometric Login': 'Biometric Login'
     },
     ar: {
         'Digital Banking': 'الخدمات المصرفية الرقمية',
@@ -81,7 +130,54 @@ const translations = {
         'Start by making a transfer': 'ابدأ بإجراء تحويل',
         'Money Transfer': 'تحويل أموال',
         'Received from': 'مُستلم من',
-        'Sent to': 'مُرسل إلى'
+        'Sent to': 'مُرسل إلى',
+        'Bills': 'الفواتير',
+        'Reports': 'التقارير',
+        'Settings': 'الإعدادات',
+        'Pay Bills': 'دفع الفواتير',
+        'Account Reports': 'تقارير الحساب',
+        'All': 'الكل',
+        'Transfers': 'التحويلات',
+        'Deposits': 'الإيداعات',
+        'Electricity': 'الكهرباء',
+        'Water': 'المياه',
+        'Internet': 'الإنترنت',
+        'Mobile': 'الجوال',
+        'Gas': 'الغاز',
+        'Insurance': 'التأمين',
+        'Account Number': 'رقم الحساب',
+        'Pay Bill': 'دفع الفاتورة',
+        'Cancel': 'إلغاء',
+        'Select Period': 'اختر الفترة',
+        'Last 7 days': 'آخر 7 أيام',
+        'Last 30 days': 'آخر 30 يوم',
+        'Last 3 months': 'آخر 3 أشهر',
+        'Last year': 'آخر سنة',
+        'Generate Report': 'إنشاء التقرير',
+        'Financial Summary': 'الملخص المالي',
+        'Total Income': 'إجمالي الدخل',
+        'Total Expenses': 'إجمالي المصروفات',
+        'Net Amount': 'المبلغ الصافي',
+        'Total Transactions': 'إجمالي المعاملات',
+        'Account Information': 'معلومات الحساب',
+        'Account Number:': 'رقم الحساب:',
+        'IBAN:': 'الآيبان:',
+        'Current Balance:': 'الرصيد الحالي:',
+        'Profile Information': 'معلومات الملف الشخصي',
+        'Name:': 'الاسم:',
+        'Email:': 'البريد الإلكتروني:',
+        'Phone:': 'الهاتف:',
+        'Account Type:': 'نوع الحساب:',
+        'Transaction Limits': 'حدود المعاملات',
+        'Daily Limit:': 'الحد اليومي:',
+        'Monthly Limit:': 'الحد الشهري:',
+        'Notifications': 'الإشعارات',
+        'SMS Alerts': 'تنبيهات الرسائل',
+        'Email Alerts': 'تنبيهات البريد',
+        'Push Notifications': 'الإشعارات المباشرة',
+        'Security': 'الأمان',
+        'Change PIN': 'تغيير الرقم السري',
+        'Biometric Login': 'تسجيل الدخول بالبصمة'
     }
 };
 
@@ -93,7 +189,10 @@ const screens = {
     dashboard: document.getElementById('dashboard-screen'),
     transfer: document.getElementById('transfer-screen'),
     cards: document.getElementById('cards-screen'),
-    transactions: document.getElementById('transactions-screen')
+    transactions: document.getElementById('transactions-screen'),
+    bills: document.getElementById('bills-screen'),
+    statements: document.getElementById('statements-screen'),
+    settings: document.getElementById('settings-screen')
 };
 
 // Utility Functions
@@ -269,6 +368,7 @@ async function loadDashboard() {
 }
 
 function loadTransactions(transactions) {
+    allTransactions = transactions;
     const transactionsList = document.getElementById('transactions-list');
     const fullTransactionsList = document.getElementById('full-transactions-list');
     
@@ -284,25 +384,37 @@ function loadTransactions(transactions) {
         return;
     }
     
+    renderTransactions(transactions.slice(0, 5), transactionsList);
+    renderTransactions(transactions, fullTransactionsList);
+}
+
+function renderTransactions(transactions, container) {
     const transactionHTML = transactions.map(transaction => {
         const isPositive = transaction.amount > 0;
-        const icon = isPositive ? 'fas fa-arrow-down' : 'fas fa-arrow-up';
         const amountClass = isPositive ? 'positive' : 'negative';
+        const category = transaction.category || 'transfer';
         
         let title, subtitle;
         if (transaction.type === 'transfer_in') {
             title = transaction.description || translations[currentLanguage]['Money Transfer'];
             subtitle = `${translations[currentLanguage]['Received from']} ${transaction.sender}`;
-        } else {
+        } else if (transaction.type === 'transfer_out') {
             title = transaction.description || translations[currentLanguage]['Money Transfer'];
             subtitle = `${translations[currentLanguage]['Sent to']} ${transaction.recipient}`;
+        } else if (transaction.type === 'bill_payment') {
+            title = transaction.description || `${transaction.billType} Bill`;
+            subtitle = transaction.accountNumber;
+        } else {
+            title = transaction.description;
+            subtitle = transaction.merchant || transaction.sender || '';
         }
         
         return `
-            <div class="transaction-item">
+            <div class="transaction-item ${category}">
                 <div class="transaction-info">
                     <h4>${title}</h4>
                     <p>${subtitle}</p>
+                    ${transaction.reference ? `<div class="transaction-reference">${transaction.reference}</div>` : ''}
                 </div>
                 <div class="transaction-amount ${amountClass}">
                     <div class="amount">${formatCurrency(Math.abs(transaction.amount))}</div>
@@ -312,8 +424,16 @@ function loadTransactions(transactions) {
         `;
     }).join('');
     
-    transactionsList.innerHTML = transactionHTML;
-    fullTransactionsList.innerHTML = transactionHTML;
+    container.innerHTML = transactionHTML;
+}
+
+function filterTransactions(category) {
+    if (category === 'all') {
+        renderTransactions(allTransactions, document.getElementById('full-transactions-list'));
+    } else {
+        const filtered = allTransactions.filter(t => t.category === category || t.type.includes(category));
+        renderTransactions(filtered, document.getElementById('full-transactions-list'));
+    }
 }
 
 // Transfer Functions
@@ -374,6 +494,117 @@ async function generateNewCard() {
         console.error('Generate card error:', error);
     } finally {
         hideLoading();
+    }
+}
+
+// Bill Payment Functions
+function showBillPaymentForm(billType) {
+    currentBillType = billType;
+    const billCategories = document.querySelector('.bill-categories');
+    const billForm = document.getElementById('bill-payment-form');
+    const billTitle = document.getElementById('bill-title');
+    
+    billCategories.classList.add('hidden');
+    billForm.classList.remove('hidden');
+    billTitle.textContent = `${translations[currentLanguage][billType.charAt(0).toUpperCase() + billType.slice(1)]} ${translations[currentLanguage]['Pay Bill']}`;
+}
+
+function hideBillPaymentForm() {
+    const billCategories = document.querySelector('.bill-categories');
+    const billForm = document.getElementById('bill-payment-form');
+    
+    billCategories.classList.remove('hidden');
+    billForm.classList.add('hidden');
+    billForm.reset();
+    currentBillType = null;
+}
+
+async function payBill(billType, accountNumber, amount, description) {
+    try {
+        showLoading();
+        const data = await apiCall('/pay-bill', {
+            method: 'POST',
+            body: { billType, accountNumber, amount, description }
+        });
+        
+        showToast('Bill payment successful!');
+        await loadDashboard();
+        showScreen('dashboard');
+        hideBillPaymentForm();
+    } catch (error) {
+        console.error('Bill payment error:', error);
+    } finally {
+        hideLoading();
+    }
+}
+
+// Reports Functions
+async function generateReport(period) {
+    try {
+        showLoading();
+        const data = await apiCall(`/statements?period=${period}`);
+        
+        // Update summary data
+        document.getElementById('total-income').textContent = formatCurrency(data.totalIncome);
+        document.getElementById('total-expenses').textContent = formatCurrency(data.totalExpenses);
+        document.getElementById('net-amount').textContent = formatCurrency(data.netAmount);
+        document.getElementById('total-transactions').textContent = data.totalTransactions;
+        
+        // Update account information
+        document.getElementById('report-account-number').textContent = data.accountInfo.accountNumber;
+        document.getElementById('report-iban').textContent = data.accountInfo.iban;
+        document.getElementById('report-balance').textContent = formatCurrency(data.accountInfo.currentBalance);
+        
+        // Set net amount color
+        const netAmountElement = document.getElementById('net-amount');
+        netAmountElement.className = 'value ' + (data.netAmount >= 0 ? 'positive' : 'negative');
+        
+        // Show report summary
+        document.getElementById('report-summary').classList.remove('hidden');
+        
+        showToast('Report generated successfully!');
+    } catch (error) {
+        console.error('Generate report error:', error);
+    } finally {
+        hideLoading();
+    }
+}
+
+// Settings Functions
+async function loadSettings() {
+    try {
+        const data = await apiCall('/settings');
+        
+        // Update profile information
+        document.getElementById('profile-name').textContent = data.profile.name;
+        document.getElementById('profile-email').textContent = data.profile.email;
+        document.getElementById('profile-phone').textContent = data.profile.phone;
+        document.getElementById('profile-account-type').textContent = data.profile.accountType;
+        
+        // Update limits
+        document.getElementById('daily-limit').textContent = formatCurrency(data.limits.daily);
+        document.getElementById('monthly-limit').textContent = formatCurrency(data.limits.monthly);
+        
+        // Update settings toggles
+        document.getElementById('sms-alerts').checked = data.settings.smsAlerts;
+        document.getElementById('email-alerts').checked = data.settings.emailAlerts;
+        document.getElementById('push-notifications').checked = data.settings.notifications;
+        
+    } catch (error) {
+        console.error('Load settings error:', error);
+    }
+}
+
+async function updateSettings(settings) {
+    try {
+        await apiCall('/settings', {
+            method: 'PUT',
+            body: { settings }
+        });
+        
+        showToast('Settings updated successfully!');
+    } catch (error) {
+        console.error('Update settings error:', error);
     }
 }
 
@@ -468,8 +699,21 @@ document.addEventListener('DOMContentLoaded', function() {
         showScreen('cards');
     });
     
+    document.getElementById('bills-btn').addEventListener('click', () => {
+        showScreen('bills');
+    });
+    
     document.getElementById('transactions-btn').addEventListener('click', () => {
         showScreen('transactions');
+    });
+    
+    document.getElementById('statements-btn').addEventListener('click', () => {
+        showScreen('statements');
+    });
+    
+    document.getElementById('settings-btn').addEventListener('click', async () => {
+        await loadSettings();
+        showScreen('settings');
     });
     
     // Back buttons
@@ -482,6 +726,58 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Generate card button
     document.getElementById('generate-card-btn').addEventListener('click', generateNewCard);
+    
+    // Filter tabs for transactions
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            filterTransactions(tab.dataset.filter);
+        });
+    });
+    
+    // Bill categories
+    document.querySelectorAll('.bill-category').forEach(category => {
+        category.addEventListener('click', () => {
+            showBillPaymentForm(category.dataset.bill);
+        });
+    });
+    
+    // Bill payment form
+    document.getElementById('bill-payment-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const accountNumber = document.getElementById('bill-account-number').value;
+        const amount = parseFloat(document.getElementById('bill-amount').value);
+        const description = document.getElementById('bill-description').value;
+        
+        if (!accountNumber || amount <= 0) {
+            showToast('Please enter valid account number and amount', 'error');
+            return;
+        }
+        
+        await payBill(currentBillType, accountNumber, amount, description);
+    });
+    
+    document.getElementById('cancel-bill').addEventListener('click', hideBillPaymentForm);
+    
+    // Generate report
+    document.getElementById('generate-report').addEventListener('click', async () => {
+        const period = document.getElementById('period-select').value;
+        await generateReport(period);
+    });
+    
+    // Settings toggles
+    document.getElementById('sms-alerts').addEventListener('change', async (e) => {
+        await updateSettings({ smsAlerts: e.target.checked });
+    });
+    
+    document.getElementById('email-alerts').addEventListener('change', async (e) => {
+        await updateSettings({ emailAlerts: e.target.checked });
+    });
+    
+    document.getElementById('push-notifications').addEventListener('change', async (e) => {
+        await updateSettings({ notifications: e.target.checked });
+    });
     
     // Initial setup
     updatePageText();
