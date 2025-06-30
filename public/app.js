@@ -622,8 +622,82 @@ function toggleBalanceVisibility() {
     }
 }
 
+// Cool visual effects
+function createParticles() {
+    const particlesContainer = document.getElementById('particles');
+    const particleCount = 50;
+    
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 6 + 's';
+        particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+        particlesContainer.appendChild(particle);
+    }
+}
+
+function addCoolEffects() {
+    // Add matrix rain effect to balance card
+    const balanceCard = document.querySelector('.balance-card');
+    if (balanceCard) {
+        balanceCard.addEventListener('mouseenter', () => {
+            balanceCard.style.transform = 'scale(1.02) rotateY(5deg)';
+        });
+        balanceCard.addEventListener('mouseleave', () => {
+            balanceCard.style.transform = 'scale(1) rotateY(0deg)';
+        });
+    }
+    
+    // Add ripple effect to buttons
+    document.querySelectorAll('.btn, .action-btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.cssText = `
+                position: absolute;
+                width: ${size}px;
+                height: ${size}px;
+                left: ${x}px;
+                top: ${y}px;
+                background: rgba(255, 255, 255, 0.3);
+                border-radius: 50%;
+                transform: scale(0);
+                animation: ripple 0.6s linear;
+                pointer-events: none;
+            `;
+            
+            this.style.position = 'relative';
+            this.style.overflow = 'hidden';
+            this.appendChild(ripple);
+            
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+}
+
+// Add CSS for ripple animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes ripple {
+        to {
+            transform: scale(4);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+
 // Event Listeners
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize cool effects
+    createParticles();
+    setTimeout(addCoolEffects, 1000);
+    
     // Language toggle
     document.getElementById('lang-toggle').addEventListener('click', switchLanguage);
     
